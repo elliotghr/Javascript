@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uploader con AJAX</title>
+    <style>
+      html {
+        box-sizing: border-box;
+        font-family: sans-serif;
+        font-size: 16px;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 100vh;
+      }
+
+      progress {
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <!-- Atributo multiple especifica que puede subir más de un archivo -->
+      <!-- el API permite usarlo sin form -->
+      <input type="file" id="files" name="files" multiple />
+      <!-- <progress value="70" max="100"></progress>
+      70% - nombre archivo.pdf -->
+    </main>
+    <script>
+      /* **********     Curso JavaScript: 124. Ejercicios AJAX - APIs: Uploader con AJAX - #jonmircha     ********** */
+      /* **********     Curso JavaScript: 125. Ejercicios AJAX - APIs: Uploader AJAX con Barra de Progreso - #jonmircha     ********** */
+      const d = document,
+        $main = d.querySelector("main"),
+        $files = d.getElementById("files");
+
+      // Aqui se ejecuta la programación Ajax
+      const uploader = (file) => {
+        // console.log(file);
+        const xhr = new XMLHttpRequest(),
+          // Creamos el objeto FormData que recibe un formulario, para esto...
+          formData = new FormData();
+
+        //   Creamos una variable de tipo formulario con el metodo append
+        // clave valor
+        formData.append("file", file);
+
+        xhr.addEventListener("readystatechange", (e) => {
+          if (xhr.readyState !== 4) return;
+          if (xhr.status >= 200 && xhr.status < 300) {
+            console.log(xhr);
+            let json = JSON.parse(xhr.responseText);
+            console.log(json);
+          } else {
+            let message = xhr.statusText || "Ocurrió un error";
+            console.log(`Error ${xhr.statusText}: ${message}`);
+          }
+        });
+
+        xhr.open("POST", "assets/uploader.php");
+        // Cabecera que indica que aparte de recibir variables textuales se le manda archvios binarios
+        xhr.setRequestHeader("enc-type", "multipart/form-data");
+        xhr.send(formData);
+      };
+
+      // ******************************* Funcion de progreso *******************************
+
+      const progressSupload = (file) => {
+        const $progress = d.createElement("progress"),
+          $span = d.createElement("span");
+
+        $progress.value = 0;
+        $progress.max = 100;
+
+        $main.insertAdjacentElement("beforeend", $progress);
+        $main.insertAdjacentElement("beforeend", $span);
+        // Creamos un objeto API FileReader
+        // El objeto FileReader permite que las aplicaciones web lean ficheros (o información en buffer)
+        // almacenados en el cliente de forma asíncrona, usando los objetos File o Blob
+        // dependiendo de los datos que se pretenden leer.
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+
+        // Usaremos dos eventos, cuando esté cargando y cuando acabe
+        fileReader.addEventListener("progress", (e) => {
+          console.log(e);
+          // Usaremos los valores loaded (bytes que han sido cargados) y total (total de bytes)
+          let progress = parseInt((e.loaded * 100) / e.total);
+          $progress.value = progress;
+          $span.innerHTML = `<b> ${file.name} - ${progress}%</b>`;
+        });
+
+        fileReader.addEventListener("loadend", (e) => {
+          uploader(file);
+          setTimeout(() => {
+            $main.removeChild($progress);
+            $main.removeChild($span);
+            // files.value es el numero de archivos que muestra cuando se suben multiples archivos
+            $files.value = "";
+          }, 2000);
+        });
+      };
+
+      d.addEventListener("change", (e) => {
+        if (e.target === $files) {
+          // Propiedad especial -> .files
+          //  console.log(e.target.files);
+
+          // Usamos el metodo from del objeto Array
+          // Que un objeto que no es arregla pueda utilizar los metodos de los arreglos
+          const files = Array.from(e.target.files);
+
+          files.forEach((el) => {
+            //   Ahora la funcion uploader será ejecutada despues de la del progreso
+            progressSupload(el);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

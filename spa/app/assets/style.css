@@ -1,0 +1,142 @@
+html {
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+a {
+  color: #01579b;
+  transition: color 0.3s ease-out;
+}
+
+a:hover {
+  color: #00b0ff;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+.error {
+  padding: 1rem;
+  font-size: 150%;
+  font-weight: bold;
+  text-align: center;
+  color: rgb(255, 251, 247);
+  background-color: rgb(201, 0, 0);
+}
+
+.error mark {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+  color: white;
+  background-color: #01579b;
+}
+
+.search-form {
+  margin: auto;
+  text-align: center;
+}
+
+.search-form input {
+  display: block;
+  margin: auto;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.grid-fluid {
+  margin: 1rem auto;
+  max-width: 90%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.header {
+  padding: 0.5rem;
+  position: sticky;
+  top: 0;
+  text-align: center;
+  background-color: rgb(255, 250, 246);
+}
+
+.header > * {
+  margin: 1rem auto;
+}
+
+.loader {
+  margin: 1rem auto;
+  display: block;
+  width: 3rem;
+  height: 3rem;
+}
+
+.post-card {
+  margin: 1rem auto;
+  padding: 1rem;
+  width: 80%;
+  background-color: rgb(221, 244, 255);
+}
+
+.post-card p {
+  display: flex;
+  justify-content: space-between;
+}
+
+.post-card h2 {
+  text-align: center;
+}
+
+.post-card img {
+  display: block;
+  margin: auto;
+}
+
+.post-page {
+  margin: 1rem auto;
+  padding: 1rem;
+  width: 80%;
+  background-color: rgb(255, 255, 208);
+}
+.post-page > aside {
+  margin: auto;
+  width: 60%;
+  text-align: center;
+}
+
+.post-page > hr {
+  border: thin solid #cfd8dc;
+  margin: 2rem auto;
+  width: 80%;
+}
+
+.post-page > article {
+  padding: 0 2rem;
+}
+
+.post-image iframe,
+.post-image img,
+.post-image audio,
+.post-image video {
+  margin: auto;
+  display: block;
+  max-width: 100%;
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reactividad del Estado</title>
+  </head>
+
+  <body>
+    <h1>Reactividad del Estado</h1>
+    <form id="todo-form">
+      <input type="text" id="todo-item" placeholder="Tarea por hacer" />
+      <input type="submit" value="Agregar" />
+    </form>
+    <h2>Lista de Tareas</h2>
+    <ul id="todo-list"></ul>
+    <script>
+      const d = document;
+
+      // El State Global
+      // Creamos una variable comunmente llamada State
+      // Generalmente tendrá un objeto y cada atributo es un estado que deseamos controlar
+      const state = {
+        todoList: [],
+      };
+
+      // Template UI
+      // Mecanismo para generar la interfaz basada en el estado
+      // Va a interactuar la propiedad todolist y por cada elemento generará una li
+      const template = () => {
+        if (template.data.todoList.length < 1) {
+          return `
+          <p>
+            Lista sin tareas por hacer
+          </p>
+          `;
+        }
+        // Creamos una li por item
+        // Metodo join une todos los elementos en cadena de texto sin caracter separador
+        let todos = template.data.todoList
+          .map((item) => `<li>${item}</li>`)
+          .join("");
+        return todos;
+      };
+
+      // Agregar State al Template que genera el Componente de UI (State Local)
+      template.data = {
+        todoList: [],
+      };
+      // Render UI
+      const render = () => {
+        console.log("Estado Global", state);
+        console.log("Estado Local", template.data);
+        // Donde queremos que se renderizen los datos
+        const $list = d.getElementById("todo-list");
+        // Validamos si el objeto no existe en el DOM
+        if (!$list) return;
+        // Si existe insertamos el template
+        $list.innerHTML = template();
+      };
+
+      // Actualizar el State de forma reactiva
+      // Actualizaremos el State a traves de este intermediario setState que valua si la tiene la propiedad
+      const setState = (obj) => {
+        // Va recorrer cada llave de este objeto y la que coincida con alguna llave del state orignal
+        for (const key in obj) {
+          //  hasOwnProperty evalua que una llave existe dentro del objeto
+          if (template.data.hasOwnProperty(key)) {
+            // En esa llave remplaza el valor por el objeto que estas recibiendo
+            template.data[key] = obj[key];
+          }
+        }
+        render();
+      };
+
+      // Obtenemos una copia inmutable del State
+      // Cuando se actualiza el estado es una nueva copia
+      // Metodo que nos permite obtener el estado anterior antes de actulizar a un estado siguiente
+      const getState = () => JSON.parse(JSON.stringify(template.data));
+
+      // Ejecutamos el render a la carga del documento
+      d.addEventListener("DOMContentLoaded", render);
+
+      // Estableciendo valores por defecto al State
+      setState({
+        todoList: ["Tarea 1", "Tarea 2", "Tarea 3"],
+      });
+
+      d.addEventListener("submit", (e) => {
+        if (!e.target.matches("#todo-form")) return false;
+
+        e.preventDefault();
+
+        // Obtenemos el input
+        $item = d.getElementById("todo-item");
+        if (!$item) return;
+
+        // Actualizamos el state de forma reactiva
+        const lastState = getState();
+        lastState.todoList.push($item.value);
+        setState({ todoList: lastState.todoList });
+
+        // Limpiar item
+        $item.value = "";
+        $item.focus();
+      });
+    </script>
+  </body>
+</html>
