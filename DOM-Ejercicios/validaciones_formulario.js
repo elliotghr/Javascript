@@ -13,12 +13,15 @@ export default function contactFormValidations() {
     input.insertAdjacentElement("afterend", $span);
   });
 
+  // Validación al momento de escribir
   d.addEventListener("keyup", (e) => {
     if (e.target.matches(".contact-form [required]")) {
       let $input = e.target,
+        // Operador de corto circuito para obtener el patrón o el data-pattern ya que las text areas no lo soportan
         pattern = $input.pattern || $input.dataset.pattern;
       //   console.log($input, pattern);
 
+      // Si tiene el patrón y el input tiene texto se validará la regexp y se mostrará o no el title
       if (pattern && $input.value !== "") {
         // console.log("El input tiene patron");
         let regex = new RegExp(pattern);
@@ -26,6 +29,7 @@ export default function contactFormValidations() {
           ? d.getElementById($input.name).classList.add("is-active")
           : d.getElementById($input.name).classList.remove("is-active");
       }
+      // Si el input no tiene patrón entonces validamos que no se vaya vacío
       if (!pattern) {
         // console.log("El input NO tiene patron");
         return $input.value === ""
@@ -34,7 +38,7 @@ export default function contactFormValidations() {
       }
     }
   });
-
+  // Simulación de un envío
   d.addEventListener("submit", (e) => {
     e.preventDefault();
     alert("Enviando formulario");
