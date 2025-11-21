@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>This</title>
+    <style>
+      * {
+        font-family: Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>This</h1>
+    <h2>Call, Apply y Bind</h2>
+    <h3>Call y Apply</h3>
+    <p>
+      Son dos métodos que se utilizan en JavaScript para cambiar el contexto de
+      una función. La principal diferencia entre '.apply' y '.call' es cómo
+      pasan los argumentos a la función.
+    </p>
+    <ul>
+      <li>
+        .apply toma dos argumentos: el primer argumento es el contexto (o el
+        objeto al que se desea cambiar el contexto) y el segundo argumento es un
+        arreglo de argumentos para pasar a la función.
+      </li>
+      <li>
+        .call, por otro lado, toma un argumento de contexto y luego una lista
+        separada por comas de argumentos para pasar a la función.
+      </li>
+    </ul>
+    <h3>Bind</h3>
+    <p>
+      bind() es un método en JavaScript que se utiliza para cambiar el contexto
+      (o el "this" dentro) de una función. Es similar al uso de .call() y
+      .apply(), pero tiene un comportamiento ligeramente diferente. Cuando se
+      utiliza .bind(), se crea una nueva función con el mismo código que la
+      función original, pero con el contexto especificado. Este nuevo objeto de
+      función puede ser asignado a una variable y ejecutado más tarde. Además de
+      cambiar el contexto, .bind() también permite pasar argumentos a la función
+      cuando se crea. Estos argumentos se fijan y se pasan a la función cada vez
+      que se llama a la función enlazada.
+    </p>
+    <p>
+      En resumen, .bind() es una forma de crear una nueva función con un
+      contexto específico y argumentos fijos, permitiendo una mayor flexibilidad
+      al momento de usar las funciones y manejar los contextos.
+    </p>
+    <script>
+      console.log(this);
+
+      this.lugar = "Contexto Global";
+
+      function saludar(saludo, aQuien) {
+        console.log(`${saludo} ${aQuien} desde ${this.lugar}`);
+      }
+
+      saludar("Hola", "Banano"); // 'this' se refiere al contexto global
+
+      const obj = {
+        lugar: "Contexto Objeto",
+      };
+
+      saludar.call(obj, "Hola", "Elliot"); // 'this' se refiere a 'obj'
+      saludar.apply(obj, ["Hola", "Elliot"]); // 'this' se refiere a 'obj'
+      saludar.call(null, "Hola", "Elliot"); // 'this' se refiere a 'window'
+      saludar.apply(null, ["Hola", "Elliot"]); // 'this' se refiere a 'window'
+
+      const persona = {
+        nombre: "Jon",
+        saludar: function () {
+          console.log(`Hola, mi nombre es ${this.nombre}`);
+        },
+      };
+
+      persona.saludar(); // 'this' se refiere a 'persona'
+
+      const otraPersona = {
+        saludar: persona.saludar,
+      };
+
+      otraPersona.saludar(); // 'this' se refiere a 'otraPersona' (undefined nombre)
+
+      const saludarPersona = persona.saludar.bind(persona);
+      saludarPersona(); // 'this' se refiere a 'persona'
+    </script>
+  </body>
+</html>
