@@ -224,7 +224,7 @@ document.addEventListener("click", (e) => {
 });
 
 // Curso JavaScript: 77. BOM: Propiedades y Eventos - #jonmircha
-
+/*
 window.addEventListener("resize", (e) => {
   console.clear();
   console.log("Ancho de la ventana: ", window.innerWidth);
@@ -243,5 +243,40 @@ window.addEventListener("load", (e) => {
 document.addEventListener("DOMContentLoaded", (e) => {
   console.log("DOM completamente cargado y analizado");
 });
+*/
 // La diferencia entre ambos es que load espera a que se carguen todos los recursos (imagenes, css, etc)
 // mientras que DOMContentLoaded solo espera a que se cargue el DOM
+
+// Curso JavaScript: 79. BOM: Objetos: URL, Historial y Navegador - #jonmircha
+
+console.log("********** Objeto URL (location) **********");
+console.log(location);
+console.log("Propiedad location.href  ", location.href);
+console.log("Propiedad location.protocol  ", location.protocol);
+console.log("Propiedad location.host  ", location.host);
+console.log("Propiedad location.pathname  ", location.pathname);
+console.log("Propiedad location.hash  ", location.hash);
+console.log("Propiedad location.search  ", location.search);
+console.log("Propiedad location.origin  ", location.origin);
+console.log("Propiedad location.port  ", location.port);
+console.log("Propiedad location.hash  ", location.hash);
+// location.reload(); // Recarga la página
+
+console.log("********** Objeto Historial (history) **********");
+console.log(history);
+console.log("Propiedad history.length  ", history.length);
+// history.back(1); // Va una página atrás
+// history.forward(1); // Va una página adelante
+// history.go(-2); // Va dos páginas atrás
+
+console.log("********** Objeto Navegador (navigator) **********");
+console.log(navigator);
+console.log("Propiedad navigator.connection  ", navigator.connection);
+console.log("Propiedad navigator.geolocation  ", navigator.geolocation);
+console.log("Propiedad navigator.mediaDevices  ", navigator.mediaDevices);
+console.log("Propiedad navigator.mimeTypes  ", navigator.mimeTypes);
+console.log("Propiedad navigator.onLine  ", navigator.onLine);
+console.log("Propiedad navigator.serviceWorker  ", navigator.serviceWorker);
+console.log("Propiedad navigator.storage  ", navigator.storage);
+console.log("Propiedad navigator.usb  ", navigator.usb);
+console.log("Propiedad navigator.userAgent  ", navigator.userAgent);
